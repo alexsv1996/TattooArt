@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CV Generator</title>
+
+	<meta charset="UTF-8">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="forms.css">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script>
+		$(document).ready(function(){
+			var progress = 20;
+			/*document.getElementById("progress").innerHTML = progress.toString() + '%';*/
+			$(".colModel").click(function(){
+				$(".fa-arrow-left").css("display","inline");
+				$("#myCarousel").carousel("next");
+				$("#myCarouselForm").carousel("next");
+
+				progress +=20;
+
+				$(".progress-bar").css("width", progress.toString() + "%").attr("ariavalue-now",progress.toString());
+			});
+
+			$(".pasoPrevio").click(function(){
+				$("#myCarousel").carousel("prev");
+				$("#myCarouselForm").carousel("prev");
+				var currentIndex = $("#myCarousel div.active").index()-1;
+				if (currentIndex == 0) $(".fa-arrow-left").css("display", "none");
+
+				progress -=20;
+				$(".progress-bar").css("width", progress.toString() + "%").attr("ariavalue-now",progress.toString());
+				/*document.getElementById("progress").innerHTML = (progress).toString() + '%';*/
+			});
+
+			$(document).on('change', '.btn-file :file', function() {
+				var input = $(this),
+					label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+				input.trigger('fileselect', [label]);
+				});
+
+				$('.btn-file :file').on('fileselect', function(event, label) {
+				    
+				    var input = $(this).parents('.input-group').find(':text'),
+				        log = label;
+				    
+				    if( input.length ) {
+				        input.val(log);
+				    } else {
+				        if( log ) alert(log);
+				    }
+			    
+				});
+				function readURL(input) {
+				    if (input.files && input.files[0]) {
+				        var reader = new FileReader();
+				        
+				        reader.onload = function (e) {
+				            $('#img-personal').attr('src', e.target.result);
+				        }
+				        
+				        reader.readAsDataURL(input.files[0]);
+				    }
+				}
+
+				$("#imgInp").change(function(){
+				    readURL(this);
+				});
+			});	
+
+		var counterAptitud = 1;
+		var counterCategoria = 1;
+		var counterAbility = [0, 1];
+		var counterIdioma = 1;
+		var counterEstudio = 1;
+		var counterExp = 1;
+		var espaciado;
+		function addElement(){
+			actualizaEspaciado(counterAptitud);
+			counterAptitud++;
+			$("#rowAptitudes").append("<div class=\"form-group rowAptitud" + counterAptitud.toString() + "\" id=\"rowAptitud" + counterAptitud.toString() + "\"> " + espaciado + " <div class=\"col-12\"> <label for=\"aptitud" + counterAptitud.toString() + "\" class=\"col-form-label\">Aptitud personal</label> <input type=\"text\" class=\"form-control\" id=\"aptitud" + counterAptitud.toString() + "\" name=\"aptitud" + counterAptitud.toString() + "\"></textarea> </div> </div>");
+
+			$("#hiddenAptitud").attr("value",counterAptitud.toString());
+		}
+
+		function deleteElement(){
+			/*$("#rowAptitudes:last").remove();*/
+			/*
+			var parent = document.getElementById("rowAptitudes");
+			var nomChild = "rowAptitud" + counterAptitud.toString();
+			var child = document.getElementById(nomChild);
+			parent.removeChild(child);
+			*/
+			if (counterAptitud >= 1){
+				$("#rowAptitud" + counterAptitud.toString()).remove();
+				counterAptitud--;
+
+				$("#hiddenAptitud").attr("value",counterAptitud.toString());
+			}			
+		}
+
+		function updateTextInput(val, cat, hab){
+			console.log(".rowCategoria" + cat + "Value" + hab + " .slidecontainer .sliderValue");
+			$(".rowCategoria" + cat + "Value" + hab + " .slidecontainer .sliderValue").text(val.toString());
+		}
+
+		function addAbilityToCategory(val){
+			if (isNaN(counterAbility[val])) counterAbility[val] = 1;
+			else counterAbility[val]++;
+			console.log(".rowCategoria" + val.toString() + "Values");
+			var abilityNumber = counterAbility[val];
+			$(".rowCategoria" + val.toString() + "Values").append("<div class=\"col-12 rowCategoria" + val + "Value" + abilityNumber + "\"> <label for =\"categoria" + val + "hab" + abilityNumber + "\" class=\"col-form-label\">Habilidad</label> <input type\"text\" class=\"form-control\" id=\"categoria" + val + "hab" + abilityNumber + "\" name=\"categoria" + val + "hab" + abilityNumber + "\"> <input type=\"hidden\" name=\"hiddenCategoria" + val + "habilitats\" id=\"hiddenCategoria" + val + "habilitats\" value=\"" + abilityNumber + "\"> <input type=\"checkbox\" class=\"checkboxability checkcat" + val + "hab" + abilityNumber + "\" cat=\"" + val + "\" hab=\"" + abilityNumber + "\" name=\"cat" + val + "hab" + abilityNumber + "perc\" value\"cat" + val + "hab" + abilityNumber + "perc\" onchange=\"showPercent(getAttribute('cat'), getAttribute('hab'));\"> Quiero indicar mi grado de habilidad <br> <div class=\"slidecontainer\" style=\"display:none\"> <input type=\"range\" min=\"1\" max=\"100\" value=\"50\" categoria=\"" + val + "\" habilitat=\"" + abilityNumber + "\" class=\"slider\" name=\"cat" + val + "hab" + abilityNumber + "porcentage\" onchange=\"updateTextInput(this.value, this.getAttribute('categoria'), this.getAttribute('habilitat'));\"> <p>Valor: <span class=\"sliderValue\">50</span></p></div></div>");
+
+			$("#hiddenCategoria" + val + "Habilitats").attr("value", counterAbility[val].toString());
+
+			console.log("Hi ha " + counterAbility[val] + " habilitats en aquesta categoria");
+		}
+
+		function removeAbilityToCategory(val){
+			if (counterAbility[val] >= 1){
+				console.log("S'esborrarà la habilitat " + counterAbility[val] + " d'aquesta categoria");
+				$(".rowCategoria" + val.toString() + "Value" + counterAbility[val]).remove();
+				counterAbility[val]--;
+
+				$(".hiddenCategoria" + val + "Habilitats").attr("value",counterAbility[val].toString());
+			}
+		}
+
+		function showPercent(cat, hab){
+			console.log("Checkbox changed");
+			if ($(".checkcat" + cat + "hab" + hab).is(":checked")){
+				console.log("Checked in cat " + cat + ", hab " + hab);
+				$(".rowCategoria" + cat + "Value" + hab + " .slidecontainer").attr("style","display:default");
+			}
+
+			else{
+				console.log("dfjsd");
+				$(".rowCategoria" + cat + "Value" + hab + " .slidecontainer").attr("style","display:none");
+			}
+		}
+
+		function addCategory(){
+			actualizaEspaciado(counterCategoria);
+			++counterCategoria;
+			$("#rowCategorias").append("<div id=\"rowCategoria" + counterCategoria + "\"> " + espaciado + " <div class=\"col-12 colCat" + counterCategoria + "\"> <label for=\"categoria" + counterCategoria + "\" class=\"col-form-label\">Categoría</label> <input type=\"text\" class=\"form-control\" id=\"categoria" + counterCategoria + "\" name=\"categoria" + counterCategoria + "\"> <input type=\"hidden\" name=\"hiddenCategoria\" id=\"hiddenCategoria\" value=\"" + counterCategoria + "\"><div class=\"rowCategoria" + counterCategoria + "Values\"></div></div></div>");
+
+			console.log("Es crearà una habilitat en la categoria " + counterCategoria.toString());
+			addAbilityToCategory(counterCategoria);
+
+			$("#rowCategoria" + counterCategoria + " .colCat" + counterCategoria).append("<div id=\"rowAddOrRemoveAbilities\"> <div class=\"col-12\"> <div class=\"buttonsHabilidades\"> <span> <button type=\"button\" class=\"btn btn-link btnAddAbilityCategory" + counterCategoria + "\" value=\"" + counterCategoria + "\" onclick=\"addAbilityToCategory(this.value);\"><strong>Añadir habilidad</strong></button></span><span><button type=\"button\" class=\"btn btn-link btnRemoveAbilityCategory" + counterCategoria + "\" value=\"" + counterCategoria + "\" onclick=\"removeAbilityToCategory(this.value);\"><strong>Quitar habilidad</strong></button></span></div></div></div>");
+
+			$("#hiddenCategoria").attr("value",counterCategoria.toString());
+		}
+
+		function deleteCategory(){
+			if (counterCategoria >= 1){
+				$("#rowCategoria" + counterCategoria.toString()).remove();
+				--counterCategoria;
+				$("#hiddenCategoria").attr("value",counterCategoria.toString());
+			}
+		}
+
+		function addIdiom(){
+			actualizaEspaciado(counterIdioma);
+			++counterIdioma;
+			$(".idiomas").append("<div class=\"idioma" + counterIdioma + "\" form-group\"> " + espaciado + "<div class=\"rowIdioma\"><label for=\"idioma\" class=\"col-form-label\">Idioma</label><input type=\"text\" class=\"form-control\" id=\"idioma\" name=\"idioma" + counterIdioma + "\" style=\"width:40%\"><input type=\"hidden\" class=\"form-control\" id=\"hiddenIdioma\" name=\"hiddenIdioma\" value=\"" + counterIdioma + "\"></div><div class=\"row\"><div class=\"col-3\"><label for=\"nivel-leido\" class=\"col-form-label\">Nivel leído</label><select class=\"d-block\" id=\"nivel-leido\" name=\"nivel-leido" + counterIdioma + "\"><option selected></option><option value=\"Alto\">Alto</option><option value=\"Medio\">Medio</option><option value=\"Bajo\">Bajo</option></select></div><div class=\"col-3\"><label for=\"nivel-escrito\" class=\"col-form-label\">Nivel escrito</label><select class=\"d-block\" id=\"nivel-escrito\" name=\"nivel-escrito" + counterIdioma + "\"><option selected></option><option value=\"Alto\">Alto</option><option value=\"Medio\">Medio</option><option value=\"Bajo\">Bajo</option></select></div><div class=\"col-3\"><label for=\"nivel-oral\" class=\"col-form-label\">Nivel oral</label><select class=\"d-block\" id=\"nivel-oral\" name=\"nivel-oral" + counterIdioma + "\"><option selected></option><option value=\"nativo\">Nativo</option><option value=\"Alto\">Alto</option><option value=\"Medio\">Medio</option><option value=\"Bajo\">Bajo</option></select></div><div class=\"col-3\"><label for=\"certificado\" class=\"col-form-label\">Certificado</label><select class=\"d-block\" id=\"certificado\" name=\"certificado" + counterIdioma + "\"><option selected></option><option value=\"C2\">C2</option><option value=\"C1\">C1</option><option value=\"B2\">B2</option><option value=\"B1\">B1</option></select></div></div></div><div class=\"form-group row idioma" + counterIdioma + "extra\"><div class=\"col-12\"><label for=\"info-idiomas\"class=\"col-form-label\">Información complementaria (viajes al extranjero, assistencia a escuela internacional...)</label><textarea class=\"form-control\" rows=\"5\" id=\"info-idiomas\" name=\"info-idiomas" + counterIdioma + "\"></textarea></div></div>");
+
+			$("#hiddenIdioma").attr("value",counterIdioma.toString());
+		}
+
+		function deleteIdiom(){
+			if (counterIdioma >= 1){
+				$(".idioma" + counterIdioma.toString()).remove();
+				$(".idioma" + counterIdioma.toString() + "extra").remove();
+
+				counterIdioma--;
+				$("#hiddenIdioma").attr("value",counterIdioma.toString());
+			}
+		}
+
+		function addStudy(){
+			actualizaEspaciado(counterEstudio);
+			++counterEstudio;
+			$(".estudios").append("<div class=\"estudio" + counterEstudio + "\">" + espaciado + "<div class=\"form-group row\"><div class=\"col-6\"><div class=\"form-group row\"><div class=\"col-6\"><label for=\"fecha-inicio\" class=\"col-form-label\">Fecha de inicio</label><input type=\"month\" class=\"form-control\" id=\"fecha-inicio\" name=\"fecha-inicio" + counterEstudio + "\"><input type=\"hidden\" class=\"form-control\" id=\"hiddenEstudio\" name=\"hiddenEstudio\" value=\"" + counterEstudio + "\"></div><div class=\"col-6\"><label for=\"fecha-fin\" class=\"col-form-label\">Fecha de finalización</label><input type=\"month\" class=\"form-control\" id=\"fecha-fin\" name=\"fecha-fin" + counterEstudio + "\"></div></div><div class=\"form-group row\"><div class=\"col-12\"><label for=\"centro\" class=\"col-form-label\">Centro en el que se ha impartido</label><input type=\"text\" class=\"form-control\" id=\"centro\" name=\"centro" + counterEstudio + "\"></div></div><div class=\"form-group row\"><div class=\"col-12\"><label for=\"titulo\" class=\"col-form-label\">Título que otorga</label><input type=\"text\" class=\"form-control\" id=\"titulo\" name=\"titulo" + counterEstudio + "\"></div></div></div><div class=\"col-6\"><label for=\"comentario-educacion\" class=\"col-form-label\">Comentario</label><textarea class=\"form-control\" rows=\"9\" id=\"comentario-educacion\" name=\"comentario-educacion" + counterEstudio + "\"></textarea></div></div>");
+
+			$("#hiddenEstudio").attr("value",counterEstudio.toString());
+		}
+
+		function deleteStudy(){
+			if (counterEstudio >= 1){
+				$(".estudio" + counterEstudio.toString()).remove();
+
+				counterEstudio--;
+				$("#hiddenEstudio").attr("value",counterEstudio.toString());
+			}
+		}
+
+		function addExp(){
+			actualizaEspaciado(counterExp);
+			++counterExp;
+			$(".experiencias").append("<div class=\"experiencia" + counterExp + "\">" + espaciado + "<div class=\"form-group row\"><div class=\"col-4\"><label for=\"empresa\" class=\"col-form-label\">Nombre de la empresa</label><input type=\"text\" class=\"form-control\" id=\"empresa\" name=\"empresa" + counterExp + "\"><input type=\"hidden\" class=\"form-control\" id=\"hiddenExp\" name=\"hiddenExp\" value=\"" + counterExp + "\"></div><div class=\"col-5\"><label for=\"puesto\" class=\"col-form-label\">Nombre del puesto</label><input type=\"text\" class=\"form-control\" id=\"puesto\" name=\"puesto" + counterExp + "\"></div><div class=\"col-3\"><label for=\"tiempo-trabajado\" class=\"col-form-label\">Tiempo trabajado</label><input type=\"text\" class=\"form-control\" id=\"tiempo-trabajado\" name=\"tiempo-trabajado" + counterExp + "\"></div></div><div class=\"form-group row\"><div class=\"col-6\"><label for=\"funciones\" class=\"col-form-label\">Breve descripción de tus funciones</label><textarea class=\"form-control\" rows=\"9\" id=\"funciones\" name=\"funciones" + counterExp + "\"></textarea></div><div class=\"col-6\"><label for=\"logros\" class=\"col-form-label\">Logros/acciones remarcables obtenidas</label><textarea class=\"form-control\" rows=\"9\" id=\"logros\" name=\"logros" + counterExp + "\"></textarea></div></div></div>");
+
+			$("#hiddenExp").attr("value",counterExp.toString()).remove();
+		}
+
+		function deleteExp(){
+			console.log("A borrar la exp número " + counterExp);
+			if (counterExp >= 1){
+				$(".experiencia" + counterExp.toString()).remove();
+
+				counterExp--;
+				$("#hiddenExp").attr("value",counterExp.toString());
+			}
+		}
+
+		function actualizaEspaciado(counter){
+			console.log(counter);
+			if (counter==0)
+				espaciado = "";
+			else
+				espaciado = "<br><hr><br>";
+			console.log(espaciado);
+		}
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="row rowTituloPaso">
+
+			<div class="col-lg-12 colTituloPaso">
+				<div class="pasoPrevio">
+					<i class="fas fa-arrow-left fa-2x"></i>
+				</div>
+
+				<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0" data-ride="0">
+					<div class="carousel-inner" role="listbox">
+						<div class="carousel-item active"><strong><h2 class="paso paso1">Elige un diseño</h2></strong></div>
+						<div class="carousel-item"><strong><h2 class="paso paso2">Introduce tus datos</h2></strong></div>
+					</div>
+				</div>
+
+				<div class="quit">
+					<i class="fas fa-times fa-2x"></i>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row rowProgreso">
+			<div class="col-lg-12 colProgress">
+	            <div class="progress">
+	                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" id="progress">
+	                    <span></span>
+	                </div>
+	            </div>
+			</div>
+		</div>
+
+		<div id="myCarouselForm" class="carousel slide" data-ride="carousel" data-interval="0" data-ride="0">
+			<div class="carousel-inner" role="listbox">
+				<div class="carousel-item active">
+
+					<div class="row rowModelos">
+						<div class="col-lg-4 colModel">
+							<strong><h4 class="modelTitle">Blackberry Plum</h4></strong>
+							<img src="media/modelsCurriculums/1.jpg" class="modelCurriculum">
+						</div>
+
+						<div class="col-lg-4 colModel">
+							<strong><h4 class="modelTitle">Blackberry Plum</h4></strong>
+							<img src="media/modelsCurriculums/1.jpg" class="modelCurriculum">
+						</div>
+						<div class="col-lg-4 colModel">
+							<strong><h4 class="modelTitle">Blackberry Plum</h4></strong>
+							<img src="media/modelsCurriculums/1.jpg" class="modelCurriculum">
+						</div>
+					</div>
+
+					<div class="row rowModelos">
+						<div class="col-lg-4 colModel">
+							<strong><h4 class="modelTitle">Blackberry Plum</h4></strong>
+							<img src="media/modelsCurriculums/1.jpg" class="modelCurriculum">
+						</div>
+						<div class="col-lg-4 colModel">
+							<strong><h4 class="modelTitle">Blackberry Plum</h4></strong>
+							<img src="media/modelsCurriculums/1.jpg" class="modelCurriculum">
+						</div>
+						<div class="col-lg-4 colModel">
+							<strong><h4 class="modelTitle">Blackberry Plum</h4></strong>
+							<img src="media/modelsCurriculums/1.jpg" class="modelCurriculum">
+						</div>
+					</div>
+
+				</div>
+
+				<div class="carousel-item">
+					<div class="row rowForm">
+						<div id="accordion">
+							<form action="CV/CV.php" id="cvform" method="post" enctype="multipart/form-data">
+								<div class="card">
+									<div class="card-header" id="headingOne">
+										<h5 class="mb-0">
+											<button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+												Información Básica
+											</button>
+										</h5>
+									</div>
+									<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+										<div class="card-body">
+											<div class="form-group row">
+												<div class="col-4">
+													<label for="nombre" class="col-form-label">Nombre</label>
+													<input type="text" class="form-control" id="nombre" name="nombre">
+												</div>
+
+												<div class="col-4">
+													<label for="apellido1" class="col-form-label">Primer apellido</label>
+													<input type="text" class="form-control" id="apellido1" name="apellido1">
+												</div>
+
+												<div class="col-4">
+													<label for="apellido2" class="col-form-label">Segundo apellido</label>
+													<input type="text" class="form-control" id="apellido2" name="apellido2">
+												</div>
+											</div>
+
+											<br>
+
+											<div class="form-group row">
+												<div class="col-3">
+													<label for="fecha-nacimiento" class="col-form-label">Fecha de nacimiento</label>
+													<input type="date" class="form-control" id="fecha-nacimiento" name="fecha-nacimiento">
+												</div>
+
+												<div class="col-4">
+													<label for="ciudad-nacimiento" class="col-form-label">Ciudad de nacimiento</label>
+													<input type="text" class="form-control" id="ciudad-nacimiento" name="ciudad-nacimiento">
+												</div>
+
+												<div class="col-5">
+													<label for="telef" class="col-form-label">Teléfono de contacto</label>
+													<div> 
+														<input type="tel" class="form-control telef" id="telefono1" name="telefono1" placeholder="Teléfono 1">
+														<input type="tel" class="form-control telef" id="telefono2" name="telefono2" placeholder="Teléfono 2">
+													</div>
+												</div>
+											</div>	
+
+											<br>
+
+											<div class="form-group">
+												<label for="residencia" class="col-form-label">Residencia actual</label>
+												<div class="form-group a">
+													<input type="text" class="form-control residencia" id="ciudad" name="ciudad" placeholder="Ciudad">
+													<input type="text" class="form-control residencia" id="direccion" name="codigo-postal" placeholder="Código postal">
+												</div>
+											</div>
+
+											<br>
+
+											<div class="form-group row">
+												<div class="col-6">
+													<label for="correo-electronico" class="col-form-label">Correo electrónico</label>
+													<input type="email" class="form-control" id="correo-electronico" name="correo-electronico">
+												</div>
+
+												<div class="col-6">
+													<label for="link-profesional" class="col-form-label">Link a una de tus páginas web profesionales</label>
+													<input type="url" class="form-control" id="link-profesional1" name="link-profesional">
+												</div>												
+											</div>	
+
+											<br>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<label for="about-me" class="col-form-label">Añade una breve descripción sobre ti (motivaciones personales, objetivos profesionales...)</label>
+													<textarea class="form-control" rows="4" id="about-me" name="about-me"></textarea>
+												</div>
+											</div>	
+
+											<br>
+
+											<div class="form-group row">
+												<div class="col-12">
+													<label for="img-personal" class="col-form-label">Seleciona la foto que mostrarás en tu currículum</label>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-1"></div>
+												
+												<div class="col-10">
+											        <div class="input-group">
+											            <span class="input-group-btn">
+											                <span class="btn btn-default btn-file">
+											                    <button type="button">Haz click aquí para subir tu imagen</button><input type="file" id="imgInp" name="imgInp">
+											                </span>
+											            </span>
+											            <input type="text" class="form-control" readonly>
+											        </div>
+											        <img id="img-personal">
+											    </div>			
+
+											    <div class="col-1"></div>					
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<div class="card">
+									<div class="card-header" id="headingTwo">
+										<h5 class="mb-0">
+											<button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+												Estudios académicos y formaciones
+											</button>
+										</h5>
+									</div>
+									<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+										<div class="card-body">
+											<div class="estudios">
+												<div class="estudio1">
+													<div class="form-group row">
+														<div class="col-6">
+															<div class="form-group row">
+																<div class="col-6">
+																	<label for="fecha-inicio" class="col-form-label">Fecha de inicio</label>
+																	<input type="month" class="form-control" id="fecha-inicio" name="fecha-inicio1">
+																	<input type="hidden" class="form-control" id="hiddenEstudio" name="hiddenEstudio" value="1">
+																</div>
+
+																<div class="col-6">
+																	<label for="fecha-fin" class="col-form-label">Fecha de finalización</label>
+																	<input type="month" class="form-control" id="fecha-fin" name="fecha-fin1">
+																</div>
+															</div>
+
+															<div class="form-group row">
+																<div class="col-12">
+																	<label for="centro" class="col-form-label">Centro en el que se ha impartido</label>
+																	<input type="text" class="form-control" id="centro" name="centro1">
+																</div>
+															</div>
+
+															<div class="form-group row">
+																<div class="col-12">
+																	<label for="titulo" class="col-form-label">Título que otorga</label>
+																	<input type="text" class="form-control" id="titulo" name="titulo1">
+																</div>
+															</div>
+														</div>
+														<div class="col-6">
+															<label for="comentario-educacion" class="col-form-label">Comentario</label>
+															<textarea class="form-control" rows="9" id="comentario-educacion" name="comentario-educacion1"></textarea>										
+														</div>
+													</div>
+												</div>	
+											</div>
+
+											<div class="form-group row">
+												<div class="col-2 posicion-minus">
+													<button type="button"><i class="fas fa-minus-circle fa-2x" onclick="deleteStudy();"></i></button>
+												</div>
+												<div class="col-8">
+												</div>
+												<div class="col-2 posicion-plus">
+													<button type="button"><i class="fas fa-plus-circle fa-2x" onclick="addStudy();"></i></button>
+												</div>
+											</div>
+
+											<!--
+											<br>
+
+											<div class="form-group row">
+												<div class="col-6">
+													<label for="añadir-educacion" class="col-form-label">Pulsa este botón para añadir una nueva entrada</label>
+												</div>
+												<div class="col-6">
+
+												</div>
+											</div>
+											-->
+										</div>
+									</div>
+								</div>
+
+								<div class="card">
+									<div class="card-header" id="headingThree">
+										<h5 class="mb-0">
+											<button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+												Experiencia laboral
+											</button>
+										</h5>
+									</div>
+									<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+										<div class="card-body">
+											<div class="experiencias">
+												<div class="experiencia1">
+													<div class="form-group row">
+														<div class="col-4">
+															<label for="empresa" class="col-form-label">Nombre de la empresa</label>
+															<input type="text" class="form-control" id="empresa" name="empresa1">
+															<input type="hidden" class="form-control" id="hiddenExp" name="hiddenExp" value="1">
+														</div>
+														<div class="col-5">
+															<label for="puesto" class="col-form-label">Nombre del puesto</label>
+															<input type="text" class="form-control" id="puesto" name="puesto1">
+														</div>
+														<div class="col-3">
+															<label for="tiempo-trabajado" class="col-form-label">Tiempo trabajado</label>
+															<input type="text" class="form-control" id="tiempo-trabajado" name="tiempo-trabajado1">
+														</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-6">
+															<label for="funciones" class="col-form-label">Breve descripción de tus funciones</label>
+															<textarea class="form-control" rows="9" id="funciones" name="funciones1"></textarea>
+														</div>
+														<div class="col-6">
+															<label for="logros" class="col-form-label">Logros/acciones remarcables obtenidas</label>
+															<textarea class="form-control" rows="9" id="logros" name="logros1"></textarea>
+														</div>											
+													</div>
+												</div>
+											</div>
+											<div class="form-group row">
+												<div class="col-2 posicion-minus">
+													<button type="button"><i class="fas fa-minus-circle fa-2x" onclick="deleteExp();"></i></button>
+												</div>
+												<div class="col-8">
+												</div>
+												<div class="col-2 posicion-plus">
+													<button type="button"><i class="fas fa-plus-circle fa-2x" onclick="addExp();"></i></button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="card">
+									<div class="card-header" id="headingFour">
+										<h5 class="mb-0">
+											<button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+												Idiomas
+											</button>
+										</h5>
+									</div>
+									<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+										<div class="card-body">
+											<div class="idiomas">
+												<div class="idioma1 form-group">
+													<div class="rowIdioma">
+														<label for="idioma" class="col-form-label">Idioma</label>
+														<input type="text" class="form-control" id="idioma" name="idioma1" style="width:40%">
+														<input type="hidden" class="form-control" id="hiddenIdioma" name="hiddenIdioma" value="1">
+													</div>
+													<div class="row">
+														<div class="col-3">
+															<label for="nivel-leido" class="col-form-label">Nivel leído</label>
+															<select class="d-block" id="nivel-leido" name="nivel-leido1">
+																<option selected></option>
+																<option value="Alto">Alto</option>
+																<option value="Medio">Medio</option>
+																<option value="Bajo">Bajo</option>
+															</select>
+														</div>
+														<div class="col-3">
+															<label for="nivel-escrito" class="col-form-label">Nivel escrito</label>
+															<select class="d-block" id="nivel-escrito" name="nivel-escrito1">
+																<option selected></option>
+																<option value="Alto">Alto</option>
+																<option value="Medio">Medio</option>
+																<option value="Bajo">Bajo</option>
+															</select>
+														</div>
+														<div class="col-3">
+															<label for="nivel-oral" class="col-form-label">Nivel oral</label>
+															<select class="d-block" id="nivel-oral" name="nivel-oral1">
+																<option selected></option>
+																<option value="Nativo">Nativo</option>
+																<option value="Alto">Alto</option>
+																<option value="Medio">Medio</option>
+																<option value="Bajo">Bajo</option>
+															</select>
+														</div>
+														<div class="col-3">
+															<label for="certificado" class="col-form-label">Certificado</label>
+															<select class="d-block" id="certificado" name="certificado1">
+																<option selected></option>
+																<option value="C2">C2</option>
+																<option value="C1">C1</option>
+																<option value="B2">B2</option>
+																<option value="B1">B1</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="idioma1extra form-group row">
+													<div class="col-12">
+														<label for="info-idiomas" class="col-form-label">Información complementaria (viajes al extranjero, assistencia a escuela internacional...)</label>
+														<textarea class="form-control" rows="5" id="info-idiomas" name="info-idiomas1"></textarea>
+													</div>											
+												</div>
+											</div>
+
+
+											<div class="form-group row">
+												<div class="col-2 posicion-minus">
+													<button type="button"><i class="fas fa-minus-circle fa-2x" onclick="deleteIdiom();"></i></button>
+												</div>
+												<div class="col-8">
+												</div>
+												<div class="col-2 posicion-plus">
+													<button type="button"><i class="fas fa-plus-circle fa-2x" onclick="addIdiom();"></i></button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="card">
+									<div class="card-header" id="headingFive">
+										<h5 class="mb-0">
+											<button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+												Aptitudes personales y habilidades
+											</button>
+										</h5>
+									</div>
+									<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+										<div class="card-body" id="padre">
+											<div class="form-group" id="rowAptitudes">
+												<strong>Aptitudes personales</strong>
+												<div id="rowAptitud1">
+													<div class="col-12">
+														<label for="aptitud1" class="col-form-label">Aptitud personal</label>
+														<input type="text" class="form-control" id="aptitud1" name="aptitud1" placeholder="Trabajo en equipo">
+														<input type="hidden" name="hiddenAptitud" id="hiddenAptitud" value="1">
+													</div>	
+												</div>								
+											</div>
+
+											<div class="form-group row">
+												<div class="col-2 posicion-minus">
+													<button type="button"><i class="fas fa-minus-circle fa-2x" onclick="deleteElement()"></i></button>
+												</div>
+												<div class="col-8">
+												</div>
+												<div class="col-2 posicion-plus">
+													<button type="button"><i class="fas fa-plus-circle fa-2x" onclick="addElement()"></i></button>
+												</div>
+											</div>
+
+											<br><br>
+
+											<div class="form-group" id="rowCategorias">
+												<strong>Habilidades</strong>
+												<div id="rowCategoria1">
+													<div class="col-12 colCat1">
+														<label for="categoria1" class="col-form-label">Categoría</label>
+														<input type="text" class="form-control" id="categoria1" name="categoria1" placeholder="Informática">
+														<input type="hidden" name="hiddenCategoria" id="hiddenCategoria" value="1">
+
+														<div class="rowCategoria1Values">
+															<div class="col-12 rowCategoria1Value1">
+																<label for="categoria1hab1" class="col-form-label">Habilidad</label>
+																<input type="text" class="form-control" id="categoria1hab1" name="categoria1hab1" placeholder="Desarrollo de páginas web">
+																<input type="hidden" name="hiddenCategoria1habilitats" id="hiddenCategoria1habilitats" value="1">
+																<input type="checkbox" class="checkboxability checkcat1hab1" cat="1" hab="1" name="cat1hab1perc" value="cat1hab1perc" onchange="showPercent(getAttribute('cat'), getAttribute('hab'));"> Quiero indicar mi grado de habilidad<br>
+																<div class="slidecontainer" style="display:none">
+																	<input type="range" min="1" max="100" value="50" categoria="1" habilitat="1" class="slider" name="cat1hab1porcentage" onchange="updateTextInput(this.value, this.getAttribute('categoria'), this.getAttribute('habilitat'));">
+																	<p>Valor: <span class="sliderValue">50</span></p>
+																</div>
+															</div>
+														</div>
+
+														<div id="rowAddOrRemoveAbilities">
+															<div class="col-12">
+																<div class="buttonsHabilidades">
+																	<span><button type="button" class="btn btn-link btnAddAbilityCategory1" value="1" onclick="addAbilityToCategory(this.value);"><strong>Añadir habilidad</strong></button></span>
+																	<span><button type="button" class="btn btn-link btnRemoveAbilityCategory1" value="1" onclick="removeAbilityToCategory(this.value);"><strong>Quitar habilidad</strong></button></span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-2 posicion-minus">
+													<button type="button"><i class="fas fa-minus-circle fa-2x" onclick="deleteCategory()"></i></button>
+												</div>
+												<div class="col-8">
+												</div>
+												<div class="col-2 posicion-plus">
+													<button type="button"><i class="fas fa-plus-circle fa-2x" onclick="addCategory()"></i></button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row rowSubmit1">
+									<a href="CV/CV.php"><button type="button submit" form="cvform" class="btn btn-success btnSubmit">Enviar</button></a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

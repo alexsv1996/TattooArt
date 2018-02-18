@@ -1,0 +1,232 @@
+html,body{
+	margin-bottom:1%;
+}
+
+.rowTituloPaso{
+	margin-top:2%;
+	text-align:center;
+}
+
+.rowProgreso{
+	margin-top:2%;
+}
+
+.progress{
+	width:60%;
+	height:30px;
+}
+
+.colProgress{
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+}
+
+.rowModelos{
+	margin-top:5%;
+}
+
+.colModel{
+	text-align:center;
+	transition:0.3s;
+}
+
+.modelCurriculum{
+	width:90%;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	margin-top:2%;
+	opacity:0.8;
+	transition:0.3s;
+}
+
+.modelCurriculum:hover{
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+	opacity:1.0;
+}
+
+.colModel:hover{
+	transform: scale(1.1);
+	color:steelblue;
+}
+
+.modelTitle{
+	margin-top:4%;
+}
+
+body{
+	background-color:ghostwhite;
+}
+
+.fa-arrow-left{
+	opacity:0.5;
+	transition:0.3s;
+	display:none;
+}
+
+.fa-arrow-left:hover{
+	opacity:1;
+}
+
+.fa-times{
+	opacity:0.5;
+	transition:0.3s;
+}
+
+.fa-times:hover{
+	opacity:1;
+}
+
+.colTituloPaso{
+	display: flex;
+	flex-direction:row;
+	justify-content:space-between;
+}
+
+#myCarousel{
+	width:85%;
+}
+
+.progress-bar{
+	transition:1.25s;
+}
+
+.rowForm{
+	margin-left:2%;
+	margin-top:2%;
+}
+
+#accordion{
+	width:95%;
+}
+
+.card{
+	width:100%;
+}
+
+.card-header{
+	background-color:silver;
+	transition:0.5s;
+}
+
+.card-header:hover{
+	background-color:grey;
+}
+
+.btn {
+	width: 100%;
+	height: 100%;
+}
+
+.btn-link {
+	text-decoration: none;
+	color: black;
+}
+
+.btn-link:hover {
+	text-decoration: none;
+	color: black;
+}
+
+.telef {
+	width: 49%;
+	display: inline-flex;
+}
+
+
+.residencia {
+	display: inline-flex;
+}
+
+#ciudad, #direccion {
+	width: 49%;
+}
+
+#codigo-postal, #piso, #numero {
+	width: 32%;
+}
+
+.a {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+}
+
+.rowSubmit{
+	display:flex;
+	flex-direction:row;
+	flex-wrap:nowrap;
+	justify-content:flex-end;
+	padding-right:5%;
+	padding-top:5%;
+}
+
+.rowForm{
+	display:flex;
+	justify-content:center;
+}
+
+.rowSubmit1{
+	padding-top:3%;
+	padding-right:1%;
+	flex-direction:row;
+	justify-content:flex-end;
+}
+
+.nivel {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.posicion-plus {
+	display: flex;
+	justify-content: flex-end;
+	color: #2FE81C;
+}
+
+.posicion-minus {
+	display: flex;
+	justify-content: flex-start;
+	color: red;
+}
+
+.buttonsHabilidades{
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+}
+
+.btn-link:hover{
+	color:blue;
+}
+
+.rowIdioma{
+	display: flex;
+	flex-direction:column;
+}
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#img-personal{
+	width:100%;
+}

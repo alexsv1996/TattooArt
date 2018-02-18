@@ -1,0 +1,242 @@
+.row1{
+	/*background: linear-gradient(#C2EEDC,#FFE6A7);*/
+	background-color: #1B7A78;
+	padding-left:5%;
+	padding-top:2%;
+	padding-bottom:0;
+}
+
+.title{
+	font-family:Helvetica,Arial,serif;
+}
+
+.italic{
+	font-style:italic;
+	font-family:Helvetica,Arial,serif;
+	font-size:30px;
+}
+
+#sadBoy{
+	background-color:blue;
+}
+
+#imgSadBoy img{
+	vertical-align:bottom;
+}
+
+.headerCarousel{
+	font-size:30px;
+}
+
+.emoji{
+	height:200px;
+	width:200px;
+}
+
+.rowEmojis{
+	display: flex;
+	flex-direction:row;
+	flex-wrap:nowrap;
+	justify-content:space-around;
+}
+
+.rowDialogs{
+	display:flex;
+	flex-direction:row;
+	flex-wrap:nowrap;
+	justify-content:space-around;
+}
+
+.dialogInterrogation{
+	font-size:70px;
+	padding-right:70px;
+	visibility:hidden;
+}
+
+.heyPng{
+	visibility:hidden;
+}
+
+.colComenzar{
+	height:100%;
+	display:flex;
+	flex-direction:column;
+	flex-wrap:nowrap;
+	font-variant: small-caps;
+}
+
+.introColComenzar{
+	color:#66FCF1;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: middle;
+	justify-content: space-around;
+	text-align: left;
+}
+
+.introColComenzar .definicion {
+	text-align: left;
+}
+
+.botonColComenzar {
+	display: inherit;
+	justify-content: center;
+	align-content: middle;
+}
+
+#button-start {
+	display: inherit;
+	justify-content: center;
+	align-content: middle;
+	background: #1B7A78;
+	border: 5px solid white;
+	color: white;
+	width: 250px;
+	height: 90px;
+	font-size: 30px;
+	border-radius: 15px;
+}
+
+#button-start:hover {
+	display: inherit;
+	justify-content: center;
+	align-content: middle;
+}
+
+.row2{
+	padding-top:2%;
+	background-image:url("http://www.designshock.com/wp-content/uploads/2015/02/poison2.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	padding-bottom:2%;
+}
+
+.flexDefCol{
+	display:flex;
+	height:100%;
+	width:100%;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+}
+
+.definicion{
+	text-align:justify;
+	font-size:20px;
+	width:80%;
+}
+
+.definicionTitulo{
+	font-style:italic;
+	font-size:40px;
+}
+
+.flexBoxEjemplo{
+	display:flex;
+	height:100%;
+	justify-content:center;
+}
+
+.card{
+	width:60%;
+}
+
+.card-block{
+	padding-left:3%;
+	padding-right:3%;
+	text-align:justify;
+}
+
+.col1FormatsFlex{
+	padding:0;
+	display:flex;
+	height:100%;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+}
+
+.flexFormatRow{
+	display:flex;
+	flex-direction:row;
+	justify-content:space-around;
+}
+
+.flexFormatColumn{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+.flexFormatText{
+	display:flex;
+	flex-direction:row;
+	justify-content:space-around;
+}
+
+.formatText{
+	font-size:25px;
+}
+
+.formatIntro{
+	font-size:30px;
+}
+
+.col1Formats, .col2Formats{
+	padding-top:2%;
+}
+
+.fraseToxica{
+	font-size:42px;
+	text-align:center;
+	color:white;
+}
+
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans);
+
+
+.buttons {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+
+  align-content: middle;
+  display:flex;
+}
+
+#buttonA {
+  text-decoration: none;
+  color: white;
+  width: 300px;
+  height: 100px;
+  background: #F2385A;
+  margin: 30px;
+  top: 100px;
+  padding: 16px;
+  font-size: 50px;
+  border-radius: 10px;
+  box-shadow: 0px 15px 0px 0px #f02046, 0px 0px 20px 0px #bbb;
+  transition: all 0.2s;
+
+  align-content: middle;
+  display:flex;
+  text-align: center;
+}
+
+#buttonA:active {
+  top: 108px;
+  box-shadow: 0px 7px 0px 0px #f02046;
+}
+
+.button1 {
+  background-color: #F2385A;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
